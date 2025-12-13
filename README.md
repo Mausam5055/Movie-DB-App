@@ -10,6 +10,8 @@
 
 **A beautiful, feature-rich mobile application for discovering and tracking movies**
 
+**Author**: [Mausam Kar](https://github.com/Mausam5055)
+
 [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Architecture](#-architecture)
 
 </div>
@@ -211,6 +213,14 @@ npm install
 # or
 yarn install
 ```
+
+> **⚠️ Note**: If you encounter dependency conflicts (ERESOLVE errors) during installation, use the `--legacy-peer-deps` flag:
+>
+> ```bash
+> npm install --legacy-peer-deps
+> ```
+>
+> This bypasses peer dependency checks and resolves conflicts between React Native, React, and TypeScript versions.
 
 ### 3. Set Up Environment Variables
 
