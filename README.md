@@ -10,8 +10,6 @@
 
 **A beautiful, feature-rich mobile application for discovering and tracking movies**
 
-**Author**: [Mausam Kar](https://github.com/Mausam5055)
-
 [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Architecture](#-architecture)
 
 </div>
@@ -214,14 +212,6 @@ npm install
 yarn install
 ```
 
-> **⚠️ Note**: If you encounter dependency conflicts (ERESOLVE errors) during installation, use the `--legacy-peer-deps` flag:
->
-> ```bash
-> npm install --legacy-peer-deps
-> ```
->
-> This bypasses peer dependency checks and resolves conflicts between React Native, React, and TypeScript versions.
-
 ### 3. Set Up Environment Variables
 
 Create a `.env` file in the root directory:
@@ -391,6 +381,159 @@ flowchart TD
 
 - Tap on any movie card to view detailed information
 - View ratings, release date, overview, and more
+
+---
+
+## 🚀 Future Roadmap
+
+We're continuously working to enhance the React Native Movie App with exciting new features. Here's what's planned for upcoming releases:
+
+### 🎥 Video Streaming & Download Feature
+
+> [!IMPORTANT]
+> The following features are currently in the planning phase and will be implemented in future releases.
+
+#### Planned Capabilities
+
+| Feature                   | Description                                                         | Status     |
+| ------------------------- | ------------------------------------------------------------------- | ---------- |
+| **Movie Streaming**       | Stream full-length movies directly in the app with adaptive quality | 🔜 Planned |
+| **Web Series Support**    | Browse and stream complete web series with episode tracking         | 🔜 Planned |
+| **Offline Downloads**     | Download movies and episodes for offline viewing                    | 🔜 Planned |
+| **Multi-Quality Options** | Choose from 480p, 720p, 1080p, and 4K streaming                     | 🔜 Planned |
+| **Resume Playback**       | Continue watching from where you left off                           | 🔜 Planned |
+| **Subtitle Support**      | Multi-language subtitle integration                                 | 🔜 Planned |
+| **Watch History**         | Track viewing progress and history                                  | 🔜 Planned |
+
+#### 📦 Amazon S3 Integration
+
+The streaming and download features will be powered by **Amazon S3** for reliable, scalable media storage and delivery:
+
+**Architecture Overview:**
+
+```mermaid
+graph TB
+    subgraph "Mobile App"
+        A[React Native App]
+        B[Video Player Component]
+        C[Download Manager]
+        D[Playback Controller]
+    end
+
+    subgraph "Backend Services"
+        E[Appwrite Backend]
+        F[Authentication Service]
+        G[Content Management]
+    end
+
+    subgraph "AWS Infrastructure"
+        H[Amazon S3 Buckets]
+        I[CloudFront CDN]
+        J[S3 Presigned URLs]
+    end
+
+    A --> B
+    A --> C
+    B --> D
+    D --> J
+    C --> J
+
+    A --> E
+    E --> F
+    E --> G
+
+    G --> H
+    H --> I
+    I --> J
+
+    J -.->|Secure Streaming| B
+    J -.->|Secure Download| C
+
+    style A fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style H fill:#FF9900,stroke:#333,stroke-width:2px
+    style I fill:#FF9900,stroke:#333,stroke-width:2px
+    style E fill:#F02E65,stroke:#333,stroke-width:2px
+```
+
+**Key Implementation Details:**
+
+1. **Content Storage**
+
+   - Movies and web series will be stored in Amazon S3 buckets
+   - Organized folder structure: `/movies/{movie_id}/`, `/series/{series_id}/season_{n}/episode_{n}/`
+   - Multiple quality versions stored for each video
+
+2. **Secure Access**
+
+   - Pre-signed URLs for authenticated access
+   - Time-limited download links (24-hour expiry)
+   - User authentication via Appwrite before generating S3 URLs
+
+3. **Content Delivery**
+
+   - Amazon CloudFront CDN for global, low-latency streaming
+   - Adaptive bitrate streaming based on network conditions
+   - Edge caching for improved performance
+
+4. **Download Management**
+   - Background downloads with resume capability
+   - Download queue management
+   - Storage optimization with auto-cleanup of old downloads
+
+#### 🛠️ Technology Stack Additions
+
+| Technology                   | Purpose                          | Version |
+| ---------------------------- | -------------------------------- | ------- |
+| **AWS SDK for React Native** | S3 integration and API calls     | Latest  |
+| **React Native Video**       | Video playback component         | Latest  |
+| **react-native-fs**          | File system access for downloads | Latest  |
+| **Amazon CloudFront**        | CDN for video delivery           | -       |
+| **Amazon S3**                | Video storage and hosting        | -       |
+
+#### 📋 Implementation Phases
+
+**Phase 1: Basic Streaming (Q1 2026)**
+
+- [ ] Set up Amazon S3 buckets for video storage
+- [ ] Configure CloudFront distribution
+- [ ] Implement video player with basic playback controls
+- [ ] Add authentication and presigned URL generation
+- [ ] Support for 720p streaming
+
+**Phase 2: Advanced Features (Q2 2026)**
+
+- [ ] Multi-quality streaming (480p, 720p, 1080p, 4K)
+- [ ] Download functionality with progress tracking
+- [ ] Resume playback from last position
+- [ ] Subtitle support with multiple languages
+- [ ] Watch history and continue watching
+
+**Phase 3: Web Series Integration (Q3 2026)**
+
+- [ ] Web series browsing and discovery
+- [ ] Episode listing and navigation
+- [ ] Season management
+- [ ] Binge-watching features (auto-play next episode)
+- [ ] Series progress tracking
+
+**Phase 4: Optimization & Enhancement (Q4 2026)**
+
+- [ ] Adaptive bitrate streaming
+- [ ] Offline mode improvements
+- [ ] Picture-in-Picture support
+- [ ] Chromecast integration
+- [ ] Advanced analytics and recommendations
+
+#### 💡 Additional Planned Features
+
+- **Watchlist**: Save movies and series for later viewing
+- **Personalized Recommendations**: AI-powered content suggestions based on viewing history
+- **Social Features**: Share favorite movies and reviews with friends
+- **Parental Controls**: Content filtering and viewing restrictions
+- **Cross-device Sync**: Continue watching across multiple devices
+
+> [!NOTE]
+> These features require additional infrastructure setup including AWS account, S3 buckets, CloudFront configuration, and content licensing agreements. Timeline may vary based on development priorities and resource availability.
 
 ---
 
